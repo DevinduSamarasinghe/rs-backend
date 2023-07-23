@@ -12,7 +12,6 @@ export interface IRequest extends Request {
 export const authenticate = async(req:IRequest,res:Response,next:NextFunction)=>{
 
     let token;
-
     if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
 
         try{
@@ -22,6 +21,7 @@ export const authenticate = async(req:IRequest,res:Response,next:NextFunction)=>
             const decoded= jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string);
             if(typeof decoded == "object"){
                 req.user =  User.findById(decoded.object._id).select("-password");
+                console.log(req.user);
                 next();    
             }
         }catch(error){

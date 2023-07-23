@@ -13,7 +13,6 @@ import { JwtPayload } from "jsonwebtoken";
 
 export const signUp = async(req:Request,res:Response) => {
     try{
-        console.log("Called");
         const body = req.body;
 
         //checking if all the information have been given
@@ -62,43 +61,35 @@ export const signUp = async(req:Request,res:Response) => {
 }
 
 export const loginUser = async(req:Request,res:Response)=>{
+    const {email, password} = req.body;
     try{
-
-        const {email, password} = req.body;
-
-        //check if all the fields are there
-        if(!email || !password){
-            return res.status(400).json("Please enter all the fields");
+        let user = await User.findOne({email});
+        if(!user){
+            return res.status(400).json({message: "User doesn't exist. Please check your Email."});
         }
-        
-        //fetching user
-        let user:IUser | null = await User.findOne({email: email});
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if(!isMatch){
+            return res.status(400).json({message: "Incorrect Password. Please try again"});
+        }
+
+        const payload = {
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            role: user.role,
+            pic: user.pic
+        }
 
         if(user){
-            //creating a token payload
-            const payload = {
-                _id: user._id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                role: user.role,
-                pic: user.pic
-            };
-            
-            //checking if passwords match
-            const isMatch = await bcrypt.compare(password, user.password);
-            if(isMatch){
-                 res.send(200).json({user: user, accessToken: generateToken(payload)})
-            }else{
-                res.send(400).json("Invalid Password, Please try again");
-            }
+             res.status(201).json({user: user, accessToken: generateToken(payload)});
         }else{
-            //if no user found by this email
-            res.status(400).json("No user found under the provided email. Please try again");
+            res.status(400).json({error: "Failed to Login"}); 
         }
 
     }catch(error){
-        res.status(500).json(`Internal server error: ${error}`)
+        res.send(`Internal Server Error :${error}`);
     }
 }
 
