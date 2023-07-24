@@ -2,6 +2,8 @@ import express, {Express, Request, Response, urlencoded} from "express"
 import { connectDb } from "./config/db";
 import cors from "cors";
 import UserRouter from "./routes/user.routes";
+import ChatRouter from "./routes/chat.routes";
+import MessageRouter from "./routes/messages.routes";
 
 const app:Express = express();
 
@@ -13,6 +15,8 @@ app.use(cors());
 
 //Routes
 app.use('/users',UserRouter);
+app.use('/chats',ChatRouter);
+app.use('/messages',MessageRouter);
 
 
 connectDb();

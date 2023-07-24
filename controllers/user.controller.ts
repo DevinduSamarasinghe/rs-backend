@@ -1,15 +1,12 @@
 import mongoose from "mongoose";
-import User,{IUser,} from "../models/user.model";
+import User from "../models/user.model";
+import { IUser } from "../types/Schemas";
 import {Request,Response} from "express";
 import dotenv from "dotenv";
 dotenv.config({path: '../.env'});
 import bcrypt from "bcrypt";
-
-import { IRequest } from "../middleware/authenticate";
-
+import { IRequest } from "../types/Request";
 import { generateToken } from "../config/generateToken";
-import { JwtPayload } from "jsonwebtoken";
-
 
 export const signUp = async(req:Request,res:Response) => {
     try{
@@ -85,7 +82,7 @@ export const loginUser = async(req:Request,res:Response)=>{
         if(user){
              res.status(201).json({user: user, accessToken: generateToken(payload)});
         }else{
-            res.status(400).json({error: "Failed to Login"}); 
+            res.status(400).json("Failed to Login"); 
         }
 
     }catch(error){
@@ -94,17 +91,21 @@ export const loginUser = async(req:Request,res:Response)=>{
 }
 
 export const getAllusers = async(req:IRequest,res:Response) =>{
-    const keyword = req.query.search ? {
-        $or: [  
-            {firstName: {$regex: req.query.search, $options: 'i'}},  //this searches patterns in both name and email according to the search query keyword we have
-            {email: {$regex: req.query.search, $options: 'i'}},
-            
-        ],
-    }: {};
-    if(req.user){
-        const users = await User.find(keyword).find({_id: {$ne: req.user._id}})//$ne is used to find all the users except the current user
-        res.send(users);
-    }    
+    try{
+        const keyword = req.query.search ? {
+            $or: [  
+                {firstName: {$regex: req.query.search, $options: 'i'}},  //this searches patterns in both name and email according to the search query keyword we have
+                {email: {$regex: req.query.search, $options: 'i'}},
+                
+            ],
+        }: {};
+        if(req.user){
+            const users = await User.find(keyword).find({_id: {$ne: req.user._id}})//$ne is used to find all the users except the current user
+            res.send(users);
+        }    
+    }catch(error:any){
+        res.status(500).json(`Server Error: ${error.message}`);
+    }
 }
 
 
