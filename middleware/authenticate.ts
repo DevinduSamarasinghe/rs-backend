@@ -1,13 +1,11 @@
-import { Request,Response,NextFunction,ErrorRequestHandler } from "express"
+import {Response,NextFunction} from "express"
 import jwt, { JwtPayload } from "jsonwebtoken";
 import dotenv from "dotenv";
 import User from "../models/user.model";
-import { decode } from "punycode";
+import { IRequest } from "../types/Request";
+
 dotenv.config({path: '../.env'});
 
-export interface IRequest extends Request {
-    user?: JwtPayload;
-}
 
 export const authenticate = async(req:IRequest,res:Response,next:NextFunction)=>{
 
@@ -18,20 +16,19 @@ export const authenticate = async(req:IRequest,res:Response,next:NextFunction)=>
             token = req.headers.authorization.split(' ')[1];
             
             //decode the token Id
-            const decoded= jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string);
-            if(typeof decoded == "object"){
-                req.user =  User.findById(decoded.object._id).select("-password");
-                console.log(req.user);
+            let decoded:any= jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string);
+            decoded = decoded;
+          
+                req.user = await User.findById(decoded.object._id);
+                console.log("DECODED: ", decoded.object._id);
                 next();    
-            }
+            
         }catch(error){
-            res.status(401);
-            throw new Error("Not authorized, token failed");
+            res.status(401).json("Not authorized, token failed");
         }
 
         if(!token){
-            res.status(401);
-            throw new Error('Not authorized, No Token');
+            res.status(401).json("Not authorized, no token");
         }
     }
 
