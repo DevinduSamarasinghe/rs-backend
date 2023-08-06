@@ -34,7 +34,7 @@ export const sendMessage = async(req:IRequest, res:any)=>{
 
 export const allMessages = async(req:IRequest, res:any)=>{
 
-    const {chatId} = req.body;
+    const {chatId} = req.params;
     try{
         const messages = await Message.find({chat: chatId}).populate('sender','firstName lastName pic email');
         res.status(200).json(messages);
