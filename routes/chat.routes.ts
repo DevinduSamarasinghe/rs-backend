@@ -1,5 +1,5 @@
 import express from "express";
-import { authenticate } from "../middleware/authenticate";
+import { authenticate } from "../middleware/authentication";
 import { accessChat, fetchChat } from "../controllers/chatController";
 
 const router = express.Router();

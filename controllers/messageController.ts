@@ -1,7 +1,7 @@
 import User from "../models/user.model";
 import Chat from "../models/chatModel";
 import Message from "../models/messageModel";
-import { IRequest } from "../types/Request";
+import { IRequest } from "../dto/Request";
 
 export const sendMessage = async(req:IRequest, res:any)=>{
     const {content,chatId} = req.body;

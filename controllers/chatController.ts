@@ -2,8 +2,8 @@ import User from "../models/user.model";
 import Chat from "../models/chatModel";
 import Message from "../models/messageModel";
 import {Request,Response} from "express";
-import { IChat } from "../types/Schemas";
-import { IRequest } from "../types/Request";
+import { IChat } from "../dto/Schemas";
+import { IRequest } from "../dto/Request";
 
 export const accessChat = async(req:IRequest, res: Response)=>{
     

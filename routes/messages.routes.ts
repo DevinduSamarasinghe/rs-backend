@@ -1,6 +1,6 @@
 import express, {Router} from "express"
 import { allMessages, sendMessage } from "../controllers/messageController"
-import { authenticate } from "../middleware/authenticate"
+import { authenticate } from "../middleware/authentication";
 
 const router:Router = express.Router();
 router.post('/',authenticate,sendMessage);
