@@ -11,7 +11,11 @@ const PORT = 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(cors());
+
+const corsOptions = {
+    origin: "*"
+}
+app.use(cors(corsOptions));
 
 //Routes
 app.use('/users',UserRouter);

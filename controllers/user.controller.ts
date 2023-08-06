@@ -80,6 +80,7 @@ export const loginUser = async(req:Request,res:Response)=>{
         }
 
         if(user){
+            console.log(user);
              res.status(201).json({user: user, accessToken: generateToken(payload)});
         }else{
             res.status(400).json("Failed to Login"); 
