@@ -8,10 +8,11 @@ export const signJWT = (payload: JwtPayload, expiresIn: string | number ) => {
 
 export const verifyJWT = (token: string)=>{
     try{
+        console.log("SECRET",process.env.ACCESS_TOKEN_SECRET);
         const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string);
         return {payload: decoded, expired: false};
     }catch(error:any){
-        return error.message;
+        return {payload: null}
     }
 }
 
