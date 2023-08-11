@@ -8,47 +8,46 @@ import { getSession } from "../repository/jwt.repository";
 dotenv.config({path: '../.env'});
 
 export const deserealizeUser = (req:IRequest, res:Response, next:NextFunction)=>{
-    const {accessToken, refreshToken} = req.cookies;
 
-    console.log("Access Token at deserialization: ", accessToken);
-    console.log("Refresh Token at deserialization: ", refreshToken);
+    const {accessToken, refreshToken} = req.cookies;
+    console.log("Access Token: ", accessToken);
+    console.log("Refresh Token: ", refreshToken);
 
     if(!accessToken){
         return next();
     }
 
-    console.log("Access Token post access Error: ", accessToken);
     const {payload, expired} = verifyJWT(accessToken);
-    console.log("Payload at deserial:",payload);
+
     //for a valid access token 
     if(payload){
-
         //@ts-ignore
         req.user = payload;
-        console.log("Req User at valid access token deserialize:",req.user);
+
+        //@ts-ignore
+        console.log(req.user);
         return next();
     }
 
-    //expired by valid access token 
-    const {payload: refresh} = expired && refreshToken ? verifyJWT(refreshToken): {payload: null};
-    console.log("Refresh is:", refresh)
+
+    //expired but valid access token
+    const {payload: refresh} = expired && refreshToken ? verifyJWT(refreshToken) : {payload: null};
+
+    console.log("Refresh is: ",refresh);
     if(!refresh){
         return next();
     }
 
     //@ts-ignore
-    
     const session = getSession(refresh.sessionId);
-    console.log(session);
-    const newAccessToken = signJWT(session!, '5s');
+    console.log("Session is: ",session);
+    if(!session){
+        return next();
+    }
 
-    res.cookie('accessToken',newAccessToken,{
-        maxAge: 300000,
-        httpOnly: true
-    });
-
+    const newAccessToken = signJWT(session, "5s");
+    res.cookie("accessToken", newAccessToken, {maxAge: 3000000, httpOnly: true});
     //@ts-ignore
     req.user = verifyJWT(newAccessToken).payload;
-
     return next();
 }
