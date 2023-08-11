@@ -58,5 +58,13 @@ export const getAllusers = async(req:IRequest,res:Response) =>{
     }
 }
 
+export const getCurrentUser = async(req:IRequest,res:Response) =>{
+    try{
+        return res.send(res.locals.user);
+    }catch(error:any){
+        res.status(500).json(`Server Error: ${error.message}`);
+    }
+}
+
 
 
