@@ -73,8 +73,7 @@ export const deleteSessionHandler = (req:IRequest, res: Response)=>{
 export const getCurrentUser = async(req:IRequest,res:Response) =>{
     try{
         //@ts-ignore
-        console.log("res.locals.user?",res.locals.user);
-        return res.send(res.locals.user);
+        return res.send(req.user!);
     }catch(error:any){
         res.status(500).json(`Server Error: ${error.message}`);
     }
