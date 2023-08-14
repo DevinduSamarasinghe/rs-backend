@@ -2,10 +2,10 @@ import User from "../models/user.model";
 import Chat from "../models/chatModel";
 import Message from "../models/messageModel";
 
-import { IRequest } from "../dto/Request";
+import { FormattedRequest } from "../dto/Request";
 
 export const accessChatRepository = async (
-  loggedUser: IRequest["user"],
+  loggedUser: FormattedRequest["user"],
   userId: string
 ) => {
   try {

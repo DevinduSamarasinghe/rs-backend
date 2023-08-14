@@ -14,3 +14,13 @@ export type CreateUserDTO = {
     password: string,
     role: string,
 }
+
+export type SessionDTO = {
+    sessionId: string,
+    _id: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    role:string,
+    valid: boolean
+}

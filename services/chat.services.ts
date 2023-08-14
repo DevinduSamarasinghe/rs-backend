@@ -1,7 +1,5 @@
 import { Request, Response } from "express"
 import { accessChatRepository } from "../repository/chat.repository";
-import { access } from "fs";
-import { IRequest } from "../dto/Request";
 import { JwtPayload } from "jsonwebtoken";
 
 export const retrieveChat = async (userId: string, loggedUser: JwtPayload) => {

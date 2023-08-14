@@ -10,13 +10,17 @@ dotenv.config({path: "../../.env"});
 export const getUser = async(email: string)=>{
     try{
         let user = await User.findOne({email});
-        return user;
+        if(user){
+            return {status: 200, data: user};
+        }else{
+            return {status: 400, data: null};
+        }
     }catch(error:any){
-        return error.message;
+        return {status: 404, data:error.message};
     }
 }
 
-export const createUser = async(body:CreateUserDTO):Promise< IUser | null>=>{
+export const createUser = async(body:CreateUserDTO):Promise<IUser | any>=>{
     try{
         const {firstName, lastName, email, password, role} = body;
         const newUser = {
@@ -30,9 +34,10 @@ export const createUser = async(body:CreateUserDTO):Promise< IUser | null>=>{
         newUser.password = bcrypt.hashSync(password, salt);
         const user = new User(newUser) as IUser | null;
         await user?.save();
-        return user;
+        return {status: 201, data: user}
+
     }catch(error:any){
-        return error.message;
+        return {status: 500, data:error.message}
     }
 
 }
