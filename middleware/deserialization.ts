@@ -10,15 +10,16 @@ dotenv.config({path: '../.env'});
 export const deserealizeUser = (req:FormattedRequest, res:Response, next:NextFunction)=>{
 
     const {accessToken, refreshToken} = req.cookies;
-    console.log("Access Token: ", accessToken);
-    console.log("Refresh Token: ", refreshToken);
 
+
+    //it will be passed to unauthorized if no access token is present
     if(!accessToken){
         return next();
     }
 
+    //checking if the payload is valid and is expired 
     const {payload, expired} = verifyJWT(accessToken);
-
+    
     //for a valid access token 
     if(payload){
         //@ts-ignore

@@ -5,7 +5,6 @@ export const sessions: Record<string,SessionDTO> = {};
 export const createSession = (id:string, firstName:string, lastName:string, email:string, role:string)=>{
 
     const sessionId = Math.random().toString(36).substring(2,15) + Math.random().toString(36).substring(2,15);
-    console.log("session id creation: ", sessionId);
     const session = {
         sessionId,
         _id: id,

@@ -13,7 +13,6 @@ export const accessChat = async (req: FormattedRequest, res: Response) => {
 };
 
 export const fetchChat = async (req: FormattedRequest, res: Response) => {
-  console.log("REQ USER AT FETCH: ", req.user!._id);
   try {
     await Chat.find({ users: { $elemMatch: { $eq: req.user!._id } } })
       .populate("users", "-password")

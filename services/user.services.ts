@@ -57,7 +57,6 @@ export const signUpHandler = async (
       return { data: 'User Already Exists', status: 400 };
     } else {
       const { data, status } = await createUser(body);
-      console.log("In create user",data, status);
       return {data, status};
     }
   } catch (error: any) {
