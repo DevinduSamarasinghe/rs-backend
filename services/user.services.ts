@@ -5,8 +5,6 @@ import { signJWT } from "../config/jwt.config";
 import { SessionDTO } from "../dto/user.dto";
 import { CreateUserDTO } from "../dto/user.dto";
 import bcrypt from "bcrypt";
-import { isDataView } from "util/types";
-import { networkInterfaces } from "os";
 
 export type SessionPass = {
   accessToken: string;
