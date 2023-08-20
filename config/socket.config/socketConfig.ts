@@ -2,6 +2,8 @@ import { Server } from "socket.io";
 import { IncomingMessage, ServerResponse } from "http";
 import http from "http";
 import decryptMessage from "./decrypt";
+import { SessionDTO } from "../../dto/request/user.dto";
+import { IMessage } from "../../dto/schema/Schemas";
 
 export function configureSocket(
   server: http.Server<typeof IncomingMessage, typeof ServerResponse>
@@ -28,7 +30,7 @@ export function configureSocket(
     });
 
     //message returns
-    socket.on("new message", (newMessageReceived) => {
+    socket.on("new message", (newMessageReceived: IMessage) => {
       //decrypt message 
       const decryptedMessage = decryptMessage(newMessageReceived);
       var chat = decryptedMessage.chat;
@@ -37,7 +39,7 @@ export function configureSocket(
       if (!chat.users) return console.log("Chat.users not defined");
 
       //Type of user
-      chat.users.forEach((user: any) => {
+      chat.users.forEach((user: SessionDTO) => {
         if (user._id === decryptedMessage.sender._id) return;
         console.log(user._id);
         socket.in(user._id).emit("Message received", decryptedMessage);

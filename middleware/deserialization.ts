@@ -1,16 +1,13 @@
 import {Response,NextFunction} from "express"
-import jwt, { JwtPayload } from "jsonwebtoken";
 import dotenv from "dotenv";
-import User from "../models/user.model";
 import { FormattedRequest } from "../dto/request/Request";
 import { verifyJWT, signJWT } from "../config/jwt.config";
-import { getSession } from "../repository/jwt.repository";
+import { getSession } from "../repository/users";
 dotenv.config({path: '../.env'});
 
 export const deserealizeUser = (req:FormattedRequest, res:Response, next:NextFunction)=>{
 
     const {accessToken, refreshToken} = req.cookies;
-
 
     //it will be passed to unauthorized if no access token is present
     if(!accessToken){
@@ -26,7 +23,6 @@ export const deserealizeUser = (req:FormattedRequest, res:Response, next:NextFun
         req.user = payload;
         return next();
     }
-
 
     //expired but valid access token
     const {payload: refresh} = expired && refreshToken ? verifyJWT(refreshToken) : {payload: null};

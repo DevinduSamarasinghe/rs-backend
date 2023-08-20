@@ -1,3 +1,5 @@
+import { SessionDTO } from "../request/user.dto"
+
 export type FetchUserDTO=  {
     _id: string,
     firstName: string,
@@ -18,7 +20,7 @@ export type LoginResponseDTO = {
     valid: boolean
 }
 
-export type RegisterResponseDTO = {
+export type CreateUserResponseDTO = {
     data: {
         firstName: string,
         lastName: string,
@@ -47,4 +49,10 @@ export type CurrentUserDTO = {
     iat: number,
     exp: number
 }
+
+export type SessionPass = {
+    accessToken: string;
+    refreshToken: string;
+    session: SessionDTO;
+  };
 

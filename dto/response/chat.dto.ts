@@ -8,3 +8,9 @@ export type AccessChatResponseDTO = {
   updatedAt: Date;
   latestMessage: any;
 };
+
+export type FetchChatResponseDTO = {
+  data: [
+    AccessChatResponseDTO
+  ]
+}

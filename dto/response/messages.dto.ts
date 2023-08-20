@@ -15,7 +15,7 @@ export type FetchMessagesResponseDTO = {
     _id: string,
     sender: FetchUserDTO,
     content: string,
-    chat: AccessChatResponseDTO['_id'],
+    chat: AccessChatResponseDTO,
     createdAt: Date,
     updatedAt: Date,
 }
