@@ -1,19 +1,16 @@
-import express,{Router} from "express"
-import { getAllusers, loginUser, signUp, getCurrentUser, deleteSessionHandler } from "../controllers/sessions/user.controller";
+import express, { Router } from "express";
+import { getAllusers, getCurrentUser, loginUser, signUp, deleteSessionHandler } from "../controllers/sessions";
 import { authenticate } from "../middleware/authentication";
 
-const router:Router = express.Router();
+function userRoutes(){
+  const router: Router = express.Router();
+  router.get("/", authenticate, getAllusers);
+  router.get("/current", authenticate, getCurrentUser);
+  router.post("/login", loginUser);
+  router.post("/register", signUp);
+  router.post("/delete", authenticate, deleteSessionHandler);
 
-router.get('/',authenticate,getAllusers);
-router.get("/current",authenticate,getCurrentUser);
-router.post('/login',loginUser);
-router.post('/register',signUp);
-router.post('/delete',authenticate,deleteSessionHandler);
+  return router;
+};
 
-
-export default router;
-
-
-
-
-
+export default userRoutes;
