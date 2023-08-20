@@ -24,9 +24,6 @@ export const deserealizeUser = (req:FormattedRequest, res:Response, next:NextFun
     if(payload){
         //@ts-ignore
         req.user = payload;
-
-        //@ts-ignore
-        console.log(req.user);
         return next();
     }
 
@@ -34,14 +31,12 @@ export const deserealizeUser = (req:FormattedRequest, res:Response, next:NextFun
     //expired but valid access token
     const {payload: refresh} = expired && refreshToken ? verifyJWT(refreshToken) : {payload: null};
 
-    console.log("Refresh is: ",refresh);
     if(!refresh){
         return next();
     }
 
     //@ts-ignore
     const session = getSession(refresh.sessionId);
-    console.log("Session is: ",session);
     if(!session){
         return next();
     }
