@@ -1,12 +1,3 @@
-export type FetchUserDTO=  {
-    _id: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    role: string,
-    pic: string,
-}
-
 export type CreateUserDTO = {
     firstName: string,
     lastName: string,
@@ -24,3 +15,9 @@ export type SessionDTO = {
     role:string,
     valid: boolean
 }
+
+export type LoginDTO = {
+    email: string,
+    password: string
+}
+

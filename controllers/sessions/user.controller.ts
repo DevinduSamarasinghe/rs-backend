@@ -1,15 +1,13 @@
 import mongoose from "mongoose";
 import User from "../../models/user.model";
 import { Request, Response } from "express";
-import { FormattedRequest } from "../../dto/Request";
+import { FormattedRequest } from "../../dto/request/Request";
 import {
   SessionPass,
-  SignUpHandler,
   createSessionHandler,
   signUpHandler,
 } from "../../services/user.services";
 
-import { SessionDTO } from "../../dto/user.dto";
 import dotenv from "dotenv";
 import { invalidateSession } from "../../repository/jwt.repository";
 dotenv.config({ path: "../.env" });

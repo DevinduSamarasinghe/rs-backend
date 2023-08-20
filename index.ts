@@ -11,7 +11,6 @@ dotenv.config({ path: ".env" });
 import { configureSocket } from "./config/socket.config/socketConfig";
 
 const app: Express = express();
-
 const PORT = 8080 || process.env.PORT;
 
 const corsOptions = {

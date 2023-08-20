@@ -1,4 +1,4 @@
-import { SessionDTO } from "../dto/user.dto";
+import { SessionDTO } from "../dto/request/user.dto";
 
 export const sessions: Record<string,SessionDTO> = {};
 
