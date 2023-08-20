@@ -1,0 +1,10 @@
+version: '3'
+services:
+  app:
+    image: rs-backend # Replace with the actual name of your Docker image
+    ports:
+      - "8080:8080"
+    environment:
+      NODE_ENV: production
+      # Add other environment variables as needed
+    restart: always # Automatically restart the container if it stops
