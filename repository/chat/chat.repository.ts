@@ -26,7 +26,7 @@ function chatRepository() {
         select: "-password",
       });
       if (isChat!.length > 0) {
-        return { status: 200, data: isChat[0] };
+        return isChat[0];
       } else {
         try {
           const user = await User.findById(userId).select("firstName lastName");

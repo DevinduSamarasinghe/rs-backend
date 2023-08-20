@@ -4,7 +4,6 @@ import { SessionPass } from "../../dto/response/user.dto";
 import { signUpHandler, createSessionHandler, getUsersHandler } from "../../services/session";
 import { invalidateSession } from "../../repository/users";
 import dotenv from "dotenv";
-
 dotenv.config({ path: "../.env" });
 
 
@@ -26,8 +25,8 @@ const userController = ()=>{
     const { email, password } = req.body;
     try {
       const token: SessionPass | null | any = await createSessionHandler(email,password);
-      res.cookie("accessToken", token?.accessToken, { httpOnly: true });
-      res.cookie("refreshToken", token?.refreshToken, {httpOnly: true,maxAge: 3.154e10,}); //7days
+      res.cookie("accessToken", token?.accessToken, { httpOnly: true, sameSite:"none", secure: true });
+      res.cookie("refreshToken", token?.refreshToken, {httpOnly: true, sameSite:"none",maxAge: 3.154e10, secure: true }); //7days
       return res.status(201).json(token?.session);
     } catch (error: any) {
       return res.status(400).json(`Error in LoginUser: ${error.message}`);
@@ -49,8 +48,8 @@ const userController = ()=>{
   //DELETE SESSION CONTROLLER
   const deleteSessionHandler = (req: FormattedRequest, res: Response) => {
     try{
-      res.cookie("accessToken", "", { maxAge: 0, httpOnly: true });
-      res.cookie("refreshToken", "", { maxAge: 0, httpOnly: true });
+      res.cookie("accessToken", "", { maxAge: 0, httpOnly: true, sameSite:"none",secure: true });
+      res.cookie("refreshToken", "", { maxAge: 0, httpOnly: true , sameSite:"none",secure: true });
     
       const session = invalidateSession(req.user!.sessionId);
       return res.send(session);
