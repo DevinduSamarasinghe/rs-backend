@@ -1,5 +1,5 @@
 import mongoose, {Schema,Document} from "mongoose";
-import { IMessage } from "../dto/Schemas";
+import { IMessage } from "../dto/schema/Schemas";
 
 const MessageSchema:Schema = new mongoose.Schema({
     sender: {

@@ -1,5 +1,5 @@
 import { NextFunction, Response } from "express";
-import { FormattedRequest } from "../dto/Request";
+import { FormattedRequest } from "../dto/request/Request";
 
 export const authenticate = (req: FormattedRequest, res: Response, next: NextFunction) => {
     if(!req.user){

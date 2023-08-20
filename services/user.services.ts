@@ -1,12 +1,10 @@
 import { createUser, getUser } from "../repository/user.repository";
-import { IUser } from "../dto/Schemas.js";
+import { IUser } from "../dto/schema/Schemas.js";
 import { createSession } from "../repository/jwt.repository";
 import { signJWT } from "../config/jwt.config";
-import { SessionDTO } from "../dto/user.dto";
-import { CreateUserDTO } from "../dto/user.dto";
+import { SessionDTO } from "../dto/request/user.dto";
+import { CreateUserDTO } from "../dto/request/user.dto";
 import bcrypt from "bcrypt";
-import { isDataView } from "util/types";
-import { networkInterfaces } from "os";
 
 export type SessionPass = {
   accessToken: string;
@@ -43,10 +41,7 @@ export const createSessionHandler = async (email: string, password: string) => {
   return sessionPass;
 };
 
-export type SignUpHandler = {
-  status: number;
-  data: IUser | any | undefined;
-};
+
 
 export const signUpHandler = async (
   body: CreateUserDTO

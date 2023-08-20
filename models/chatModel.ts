@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { IChat } from "../dto/Schemas";
+import { IChat } from "../dto/schema/Schemas";
 
 const ChatSchema = new mongoose.Schema({
     chatName: {

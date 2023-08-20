@@ -8,17 +8,18 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { deserealizeUser } from "./middleware/deserialization";
 dotenv.config({ path: ".env" });
+import { configureSocket } from "./config/socket.config/socketConfig";
 
 const app: Express = express();
 const PORT = 8080 || process.env.PORT;
 
 const corsOptions = {
-  origin: process.env.FRONTEND_URL  || "*",
+  origin: process.env.FRONTEND_URL || "*",
   credentials: true,
 };
 
-
 (function main() {
+
   app.use(express.json());
   app.use(cookieParser());
   app.use(express.urlencoded({ extended: true }));
@@ -36,7 +37,10 @@ const corsOptions = {
   connectDb();
 
   //server rendering
-  app.listen(PORT, () => {
+  const server = app.listen(PORT, () => {
     console.log(`Server Running on PORT: ${PORT}`);
   });
+
+  //socket configuration
+  configureSocket(server);
 })();
