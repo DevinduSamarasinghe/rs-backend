@@ -30,7 +30,7 @@ function userServices(){
       sessionId: session.sessionId,
     };
   
-    const accessToken = signJWT(session, "5s");
+    const accessToken = signJWT(session, "30m");
     const refreshToken = signJWT(refreshPayload, "7d");
   
     const sessionPass: SessionPass = {
