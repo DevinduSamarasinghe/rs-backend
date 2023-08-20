@@ -2,7 +2,7 @@ import User from "../models/user.model";
 import Chat from "../models/chatModel";
 import Message from "../models/messageModel";
 
-import { FormattedRequest } from "../dto/Request";
+import { FormattedRequest } from "../dto/request/Request";
 
 export const accessChatRepository = async (
   loggedUser: FormattedRequest["user"],

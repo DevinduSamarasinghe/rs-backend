@@ -2,7 +2,7 @@ import User from "../../models/user.model";
 import Chat from "../../models/chatModel";
 import Message from "../../models/messageModel";
 import { Response } from "express";
-import { FormattedRequest } from "../../dto/Request";
+import { FormattedRequest } from "../../dto/request/Request";
 import { retrieveChat } from "../../services/chat.services";
 
 export const accessChat = async (req: FormattedRequest, res: Response) => {

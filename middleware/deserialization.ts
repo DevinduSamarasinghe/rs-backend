@@ -2,7 +2,7 @@ import {Response,NextFunction} from "express"
 import jwt, { JwtPayload } from "jsonwebtoken";
 import dotenv from "dotenv";
 import User from "../models/user.model";
-import { FormattedRequest } from "../dto/Request";
+import { FormattedRequest } from "../dto/request/Request";
 import { verifyJWT, signJWT } from "../config/jwt.config";
 import { getSession } from "../repository/jwt.repository";
 dotenv.config({path: '../.env'});
