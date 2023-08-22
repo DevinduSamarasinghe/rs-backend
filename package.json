@@ -8,7 +8,7 @@
     "build": "rimraf dist && tsc --project .",
     "dev": "nodemon server.ts",
     "prestart": "npm run build",
-    "start": "nodemon dist/server.js",
+    "start": "node dist/server.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --maxWorkers=1"
   },
   "author": "",
