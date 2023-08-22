@@ -1,9 +1,22 @@
-import Message from "../../models/messageModel";
-import Chat from "../../models/chatModel";
-import User from "../../models/user.model";
+import Message from "../models/messageModel";
+import Chat from "../models/chatModel";
+import User from "../models/user.model";
 
-function messageRepository() {
-  const sendMessageRepository = async (newMessage: any, chatId: string) => {
+
+export interface MessageRepositoryInstance {
+  sendMessageRepository: (newMessage: any, chatId: string) => Promise<any>;
+  fetchMessageRepository: (chatId: string) => Promise<any>;
+}
+
+let instance:MessageRepositoryInstance | null = null; 
+
+function MessageRepository() {
+
+  if(instance){
+    return instance;
+  }
+
+  const sendMessageRepository = async (newMessage: any, chatId: string):Promise<any> => {
     try {
       let message: any = await Message.create(newMessage);
       message = await message.populate("sender", "-password");
@@ -28,7 +41,7 @@ function messageRepository() {
     }
   };
 
-  const fetchMessageRepository = async (chatId: string) => {
+  const fetchMessageRepository = async (chatId: string):Promise<any> => {
     try {
       const messages = await Message.find({ chat: chatId }).populate(
         "sender",
@@ -40,7 +53,9 @@ function messageRepository() {
     }
   };
 
-  return { sendMessageRepository, fetchMessageRepository };
+  const messageRepository =  { sendMessageRepository, fetchMessageRepository };
+  instance = messageRepository;
+  return messageRepository;
 }
 
-export default messageRepository;
+export default MessageRepository;

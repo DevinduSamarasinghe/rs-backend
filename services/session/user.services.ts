@@ -5,19 +5,17 @@ import { FormattedRequest } from "../../dto/request/Request";
 import { signJWT } from "../../config/jwt.config";
 import { CreateUserResponseDTO, SearchUserResponseDTO, SessionPass } from "../../dto/response/user.dto";
 import bcrypt from "bcrypt";
-
 import User from "../../models/user.model";
-
-
 
 function userServices(){
   const createSessionHandler = async (email: string, password: string) => {
-    const { data }: { data: IUser | any } = await getUser(email);
-    const isMatch = bcrypt.compareSync(password, data.password);
-    if (!isMatch) {
-      throw new Error("Invalid Credentials");
+    const data:IUser | null= await getUser(email);
+    if(data){
+      const isMatch = bcrypt.compareSync(password, data!.password);
+       if (!isMatch) {
+        throw new Error("Invalid Credentials");
+      }
     }
-  
     const session = createSession(
       data!._id,
       data!.firstName,
@@ -43,17 +41,18 @@ function userServices(){
   };
 
   const signUpHandler = async (body: CreateUserDTO): Promise<CreateUserResponseDTO | any> => {
-    try {
-      const { data }:{data: IUser} = await getUser(body.email);
-      if (data) {
-        return { data: "User Already Exists", status: 400 };
-      } else {
-        const { data, status } = await createUser(body);
-        return { data, status };
+
+      if(!body.firstName || !body.lastName || !body.email || !body.password || !body.role){
+        throw new Error("All fields have not been filled");
       }
-    } catch (error: any) {
-      return { data: error.message, status: 500 };
-    }
+      
+      const data:IUser | null = await getUser(body.email);
+      if (data) {
+        throw new Error("User already exists");
+      } else {
+        const data:CreateUserResponseDTO = await createUser(body);
+        return data;
+      }
   };
 
   const getUsersHandler = async (req: FormattedRequest):Promise<SearchUserResponseDTO['data'] | undefined> => {
