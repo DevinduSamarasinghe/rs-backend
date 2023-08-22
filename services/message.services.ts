@@ -1,7 +1,20 @@
-import { FormattedRequest } from "../../dto/request/Request"
-import { sendMessageRepository, fetchMessageRepository } from "../../repository/messages"
+import { FormattedRequest } from "../dto/request/Request"
+import MessageRepository, { MessageRepositoryInstance } from "../repository/message.repository";
 
-function messageServices(){
+export interface MessageServiceInstance {
+    sendMessageHandler: (req: FormattedRequest) => Promise<any>;
+    allMessagesHandler: (req: FormattedRequest) => Promise<any>;
+}
+
+let instance: MessageServiceInstance | null = null;
+function MessageServices(){
+
+    if(instance){
+        return instance;
+    }
+
+    const messageRepository:MessageRepositoryInstance = MessageRepository();
+
     const sendMessageHandler = async(req: FormattedRequest)=>{
         try{
             const {content, chatId} = req.body;
@@ -15,7 +28,7 @@ function messageServices(){
                 chat: chatId
             };
         
-            const message = await sendMessageRepository(newMessage, chatId);
+            const message = await messageRepository.sendMessageRepository(newMessage, chatId);
             return message;
         }catch(error:any){
             throw new Error("Error in SendMessageHandler: " + error.message);
@@ -24,13 +37,13 @@ function messageServices(){
 
     const allMessagesHandler = async(req:FormattedRequest)=>{
         const {chatId} = req.params;
-        const messages = await fetchMessageRepository(chatId);
+        const messages = await messageRepository.fetchMessageRepository(chatId);
         return messages;
     }
 
     return {sendMessageHandler, allMessagesHandler};
 }
 
-export default messageServices;
+export default MessageServices;
 
 
