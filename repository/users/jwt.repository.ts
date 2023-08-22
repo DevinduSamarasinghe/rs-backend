@@ -1,6 +1,19 @@
 import { SessionDTO } from "../../dto/request/user.dto";
 
-function sessionRepository() {
+export interface SessionRepositoryInstance  {
+  createSession: (id: string,firstName: string,lastName: string,email: string,role: string) => SessionDTO;
+  getSession: (sessionId: string) => SessionDTO | null;
+  invalidateSession: (sessionId: string) => void;
+}
+
+let instance: SessionRepositoryInstance | null = null;
+
+function SessionRepository() {
+
+  if(instance){
+    return instance;
+  }
+
   const sessions: Record<string, SessionDTO> = {};
 
   const createSession = (
@@ -39,7 +52,9 @@ function sessionRepository() {
     }
   };
 
-  return { createSession, getSession, invalidateSession}
+  const jwtRepository =  { createSession, getSession, invalidateSession}
+  instance = jwtRepository;
+  return jwtRepository;
 }
 
-export default sessionRepository;
+export default SessionRepository;

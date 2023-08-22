@@ -2,13 +2,14 @@ import {Response,NextFunction} from "express"
 import dotenv from "dotenv";
 import { FormattedRequest } from "../dto/request/Request";
 import { verifyJWT, signJWT } from "../config/jwt.config";
-import { getSession } from "../repository/users";
+import UserServices, { UserServicesInstance } from "../services/user.services";
+import SessionRepository, {SessionRepositoryInstance} from "../repository/users/jwt.repository";
 dotenv.config({path: '../.env'});
 
 export const deserealizeUser = (req:FormattedRequest, res:Response, next:NextFunction)=>{
 
     const {accessToken, refreshToken} = req.cookies;
-
+    const sessionRepository:SessionRepositoryInstance = SessionRepository();
     //it will be passed to unauthorized if no access token is present
     if(!accessToken){
         return next();
@@ -32,7 +33,7 @@ export const deserealizeUser = (req:FormattedRequest, res:Response, next:NextFun
     }
 
     //@ts-ignore
-    const session = getSession(refresh.sessionId);
+    const session = sessionRepository.getSession(refresh.sessionId);
     if(!session){
         return next();
     }

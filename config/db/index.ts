@@ -1,9 +1,6 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-
-
 dotenv.config({path: '.env'});
-
 
 export const connectDb = async()=>{
     try{
@@ -14,6 +11,7 @@ export const connectDb = async()=>{
         connection.once("open",()=>{
             console.log("MongoDb connection established successfully!");
         })
+        
     }catch(error){
         console.log(`Database Connection Error ${error}`);
     }
