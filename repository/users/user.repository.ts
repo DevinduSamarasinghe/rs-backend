@@ -3,12 +3,25 @@ import bcrypt from "bcrypt";
 import { IUser } from "../../dto/schema/Schemas";
 import { CreateUserDTO } from "../../dto/request/user.dto";
 import dotenv from "dotenv";
+import { FetchUserDTO } from "../../dto/response/user.dto";
 dotenv.config({path: "../../.env"});
 
-function usersRepository(){
-    const getUser = async(email: string)=>{
+export interface UserRespositoryInstance {
+    getUser: (email: string)=>Promise<FetchUserDTO | null>;
+    createUser: (body: CreateUserDTO)=>Promise<CreateUserDTO | any>;
+}
+
+let instance:UserRespositoryInstance | null = null;
+
+function UserRepository(){
+
+    if(instance){
+        return instance;
+    }
+
+    const getUser = async(email: string):Promise<FetchUserDTO | null>=>{
         try{
-            const user = await User.findOne({email});
+            const user:FetchUserDTO | null = await User.findOne({email});
             if(user){
                 return user;
             }else{
@@ -19,7 +32,7 @@ function usersRepository(){
         }
     }
 
-    const createUser = async(body:CreateUserDTO):Promise<IUser | any>=>{
+    const createUser = async(body:CreateUserDTO):Promise<CreateUserDTO | any>=>{
         try{
             const {firstName, lastName, email, password, role} = body;
             const newUser = {
@@ -40,10 +53,12 @@ function usersRepository(){
         }
     }
 
-    return {getUser, createUser};
+    const userRepository = {getUser, createUser};
+    instance = userRepository;
+    return instance;
 }
 
-export default usersRepository;
+export default UserRepository;
 
 
 

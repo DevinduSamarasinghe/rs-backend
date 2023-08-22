@@ -1,11 +1,13 @@
 import { app } from "../..";
-import request,{Request} from "supertest";
+import request from "supertest";
 import { deserealizeUser } from "../../middleware/deserialization";
 import { signJWT } from "../../config/jwt.config";
-import { createSession } from "../../repository/users";
+import SessionRepository from "../../repository/users/jwt.repository";
+
 
 const sessionCreation = () => {
-  const session = createSession(
+  const sessionRepository = SessionRepository();
+  const session = sessionRepository.createSession(
     "6498325d147031dca9fb734b",
     "Devindu",
     "Samarasinghe",
@@ -101,9 +103,9 @@ describe("POST /users/signup", () => {
       firstName: "Devindu",
       lastName: "Samarasinghe",
     };
-    test("should respond with a 500 status code", async () => {
+    test("should respond with a 400 status code", async () => {
       const response = await request(app).post("/users/register").send(data);
-      expect(response.status).toBe(500);
+      expect(response.status).toBe(400);
     });
 
     test("should return an error message", async () => {
