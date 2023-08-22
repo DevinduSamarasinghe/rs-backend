@@ -2,13 +2,13 @@
   "name": "rs-backend",
   "version": "1.0.0",
   "description": "Backend Server for Remedial Space",
-  "main": "server.js",
+  "main": "api/index.js",
   "engine": "node >= 14.17.0",
   "scripts": {
     "build": "rimraf dist && tsc --project .",
-    "dev": "nodemon server.ts",
+    "dev": "nodemon api/index.ts",
     "prestart": "npm run build",
-    "start": "nodemon dist/server.js",
+    "start": "nodemon dist/api/index.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --maxWorkers=1"
   },
   "author": "",
