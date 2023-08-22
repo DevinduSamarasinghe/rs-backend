@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Backend Server for Remedial Space",
   "main": "api/index.js",
-  "engine": "node >= 14.17.0",
   "scripts": {
     "build": "rimraf dist && tsc --project .",
     "dev": "nodemon api/index.ts",
