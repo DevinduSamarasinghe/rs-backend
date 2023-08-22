@@ -12,12 +12,13 @@ export const app: Express = express();
 const PORT = 8080 || process.env.PORT;
 
 const corsOptions = {
-  origin: process.env.FRONTEND_PROD_URL,
+  origin: process.env.NODE_ENV === "production" ? process.env.FRONTEND_PROD_URL : process.env.FRONTEND_URL,
   credentials: true,
 };
 
 (function main() {
   
+  console.log("Provided Cors: ", corsOptions.origin);
   app.use(express.json());
   app.use(cookieParser());
   app.use(express.urlencoded({ extended: true }));
