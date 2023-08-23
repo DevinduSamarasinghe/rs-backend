@@ -1,4 +1,4 @@
-import { app } from "../..";
+import { app } from "../../api";
 import request from "supertest";
 import { deserealizeUser } from "../../middleware/deserialization";
 import { signJWT } from "../../config/jwt.config";
