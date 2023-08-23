@@ -3,23 +3,36 @@ import bcrypt from "bcrypt";
 import { IUser } from "../../dto/schema/Schemas";
 import { CreateUserDTO } from "../../dto/request/user.dto";
 import dotenv from "dotenv";
+import { FetchUserDTO } from "../../dto/response/user.dto";
 dotenv.config({path: "../../.env"});
 
-function usersRepository(){
-    const getUser = async(email: string)=>{
+export interface UserRespositoryInstance {
+    getUser: (email: string)=>Promise<FetchUserDTO | null>;
+    createUser: (body: CreateUserDTO)=>Promise<CreateUserDTO | any>;
+}
+
+let instance:UserRespositoryInstance | null = null;
+
+function UserRepository(){
+
+    if(instance){
+        return instance;
+    }
+
+    const getUser = async(email: string):Promise<FetchUserDTO | null>=>{
         try{
-            let user = await User.findOne({email});
+            const user:FetchUserDTO | null = await User.findOne({email});
             if(user){
-                return {status: 200, data: user};
+                return user;
             }else{
-                return {status: 400, data: null};
+                return null;
             }
         }catch(error:any){
-            return {status: 404, data:error.message};
+            throw new Error("Error in Repository: " + error.message);
         }
     }
 
-    const createUser = async(body:CreateUserDTO):Promise<IUser | any>=>{
+    const createUser = async(body:CreateUserDTO):Promise<CreateUserDTO | any>=>{
         try{
             const {firstName, lastName, email, password, role} = body;
             const newUser = {
@@ -33,17 +46,19 @@ function usersRepository(){
             newUser.password = bcrypt.hashSync(password, salt);
             const user = new User(newUser) as IUser | null;
             await user?.save();
-            return {status: 201, data: user}
+            return user;
     
         }catch(error:any){
             return {status: 500, data:error.message}
         }
     }
 
-    return {getUser, createUser};
+    const userRepository = {getUser, createUser};
+    instance = userRepository;
+    return instance;
 }
 
-export default usersRepository;
+export default UserRepository;
 
 
 

@@ -11,7 +11,7 @@ export function configureSocket(
   const io = new Server(server, {
     pingTimeout: 60000,
     cors: {
-      origin: process.env.FRONTEND_PROD_URL 
+      origin: process.env.NODE_ENV === "production" ? process.env.FRONTEND_PROD_URL : process.env.FRONTEND_URL,
     },
   });
 
