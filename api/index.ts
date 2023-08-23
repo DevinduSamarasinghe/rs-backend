@@ -1,12 +1,12 @@
 import express, { Express} from "express";
-import { connectDb } from "./config/db";
+import { connectDb } from "../config/db";
 import cors from "cors";
-import { userRoutes, chatRoutes, messageRoutes } from "./routes";
+import { userRoutes, chatRoutes, messageRoutes } from "../routes";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import { deserealizeUser } from "./middleware/deserialization";
+import { deserealizeUser } from "../middleware/deserialization";
 dotenv.config({ path: ".env" });
-import { configureSocket } from "./config/socket.config/socketConfig";
+import { configureSocket } from "../config/socket.config/socketConfig";
 
 export const app: Express = express();
 const PORT = 8080 || process.env.PORT;
