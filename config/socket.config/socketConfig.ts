@@ -8,16 +8,21 @@ import { IMessage } from "../../dto/schema/Schemas";
 export function configureSocket(
   server: http.Server<typeof IncomingMessage, typeof ServerResponse>
 ) {
+
+  const corsOrigin = process.env.NODE_ENV === "production" ? process.env.FRONTEND_PROD_URL : process.env.FRONTEND_URL;
   const io = new Server(server, {
     pingTimeout: 60000,
     cors: {
-      origin: process.env.NODE_ENV === "production" ? process.env.FRONTEND_PROD_URL : process.env.FRONTEND_URL,
+      origin: corsOrigin
     },
   });
 
+  console.log('env', process.env.NODE_ENV )
+  console.log('socket origin:', corsOrigin);
+
   io.on("connection", (socket) => {
     console.log("Connected to Socket.io");
-
+    console.log('socket origin:');
     socket.on("setup", (userData) => {
       socket.join(userData._id);
       socket.emit("connected");
