@@ -22,7 +22,6 @@ export function configureSocket(
 
   io.on("connection", (socket) => {
     console.log("Connected to Socket.io");
-    console.log('socket origin:');
     socket.on("setup", (userData) => {
       socket.join(userData._id);
       socket.emit("connected");
