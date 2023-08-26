@@ -9,7 +9,7 @@ dotenv.config({ path: ".env" });
 import { configureSocket } from "../config/socket.config/socketConfig";
 
 const app: Express = express();
-const PORT =  process.env.NODE_ENV !== "test" ?process.env.PORT || 8080 : 8081;
+const PORT =  process.env.NODE_ENV !== "test" ? 8080  || process.env.PORT : 8081;
 
 const corsOptions = {
   origin: process.env.NODE_ENV === "production" ? process.env.FRONTEND_PROD_URL : process.env.FRONTEND_URL,
