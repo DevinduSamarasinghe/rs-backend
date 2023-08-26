@@ -8,15 +8,15 @@ import { deserealizeUser } from "../middleware/deserialization";
 dotenv.config({ path: ".env" });
 import { configureSocket } from "../config/socket.config/socketConfig";
 
-export const app: Express = express();
-const PORT = 8080 || process.env.PORT;
+const app: Express = express();
+const PORT =  process.env.NODE_ENV !== "test" ?process.env.PORT || 8080 : 8081;
 
 const corsOptions = {
   origin: process.env.NODE_ENV === "production" ? process.env.FRONTEND_PROD_URL : process.env.FRONTEND_URL,
   credentials: true,
 };
 
-(function main() {
+export function main() {
   
   console.log("Provided Cors: ", corsOptions.origin);
   app.use(express.json());
@@ -42,4 +42,9 @@ const corsOptions = {
 
   //socket configuration
   configureSocket(server);
-})();
+  return {server, app};
+}
+
+if(process.env.NODE_ENV !== "test"){
+  main();
+}

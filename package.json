@@ -8,7 +8,9 @@
     "dev": "nodemon api/index.ts",
     "prestart": "npm run build",
     "start": "node dist/api/index.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --maxWorkers=1"
+    "test:exp": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "jest --watch --runInBand",
+    "test":"jest --runInBand"
   },
   "author": "",
   "license": "ISC",
