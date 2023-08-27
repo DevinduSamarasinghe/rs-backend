@@ -38,7 +38,7 @@ export const deserealizeUser = (req:FormattedRequest, res:Response, next:NextFun
         return next();
     }
 
-    const newAccessToken = signJWT(session, "5s");
+    const newAccessToken = signJWT(session, "10s");
     res.cookie("accessToken", newAccessToken, {maxAge: 3000000, httpOnly: true, sameSite:"none",secure: true });
     //@ts-ignore
     req.user = verifyJWT(newAccessToken).payload;
