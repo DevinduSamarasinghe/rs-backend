@@ -1,7 +1,7 @@
 import { IUser } from "../dto/schema/Schemas";
 import { CreateUserDTO } from "../dto/request/user.dto";
-import UserRepository, {UserRespositoryInstance} from "../repository/users/user.repository";
-import SessionRepository, {SessionRepositoryInstance} from "../repository/users/jwt.repository";
+import UserRepository, {UserRespositoryInstance} from "../repository/user.repository";
+import SessionRepository, {SessionRepositoryInstance} from "../repository/jwt.repository";
 import { FormattedRequest } from "../dto/request/Request";
 import { signJWT } from "../config/jwt.config";
 import { CreateUserResponseDTO, FetchUserDTO, SearchUserResponseDTO, SessionPass } from "../dto/response/user.dto";
@@ -46,7 +46,7 @@ function UserServices(){
       sessionId: session.sessionId,
     };
   
-    const accessToken = signJWT(session, "30m");
+    const accessToken = signJWT(session, "2h");
     const refreshToken = signJWT(refreshPayload, "7d");
   
     const sessionPass: SessionPass = {

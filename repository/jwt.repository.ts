@@ -1,4 +1,4 @@
-import { SessionDTO } from "../../dto/request/user.dto";
+import { SessionDTO } from "../dto/request/user.dto";
 
 export interface SessionRepositoryInstance  {
   createSession: (id: string,firstName: string,lastName: string,email: string,role: string) => SessionDTO;

@@ -2,8 +2,7 @@ import {Response,NextFunction} from "express"
 import dotenv from "dotenv";
 import { FormattedRequest } from "../dto/request/Request";
 import { verifyJWT, signJWT } from "../config/jwt.config";
-import UserServices, { UserServicesInstance } from "../services/user.services";
-import SessionRepository, {SessionRepositoryInstance} from "../repository/users/jwt.repository";
+import SessionRepository, {SessionRepositoryInstance} from "../repository/jwt.repository";
 dotenv.config({path: '../.env'});
 
 export const deserealizeUser = (req:FormattedRequest, res:Response, next:NextFunction)=>{
@@ -38,7 +37,7 @@ export const deserealizeUser = (req:FormattedRequest, res:Response, next:NextFun
         return next();
     }
 
-    const newAccessToken = signJWT(session, "5s");
+    const newAccessToken = signJWT(session, "2h");
     res.cookie("accessToken", newAccessToken, {maxAge: 3000000, httpOnly: true, sameSite:"none",secure: true });
     //@ts-ignore
     req.user = verifyJWT(newAccessToken).payload;
