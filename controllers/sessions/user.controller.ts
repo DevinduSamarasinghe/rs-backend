@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { FormattedRequest } from "../../dto/request/Request";
 import { SessionPass } from "../../dto/response/user.dto";
 import UserServices, { UserServicesInstance } from "../../services/user.services";
-import SessionRepository, {SessionRepositoryInstance} from "../../repository/users/jwt.repository";
+import SessionRepository, {SessionRepositoryInstance} from "../../repository/jwt.repository";
 import dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 

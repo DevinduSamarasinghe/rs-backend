@@ -2,7 +2,7 @@ import { main } from "../api";
 import request from "supertest";
 import { deserealizeUser } from "../middleware/deserialization";
 import { signJWT } from "../config/jwt.config";
-import SessionRepository from "../repository/users/jwt.repository";
+import SessionRepository from "../repository/jwt.repository";
 import { Server } from "http";
 import { Express } from "express";
 

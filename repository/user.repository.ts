@@ -1,9 +1,9 @@
-import User from "../../models/user.model";
+import User from "../models/user.model";
 import bcrypt from "bcrypt";
-import { IUser } from "../../dto/schema/Schemas";
-import { CreateUserDTO } from "../../dto/request/user.dto";
+import { IUser } from "../dto/schema/Schemas";
+import { CreateUserDTO } from "../dto/request/user.dto";
 import dotenv from "dotenv";
-import { FetchUserDTO } from "../../dto/response/user.dto";
+import { FetchUserDTO } from "../dto/response/user.dto";
 dotenv.config({path: "../../.env"});
 
 export interface UserRespositoryInstance {
