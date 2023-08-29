@@ -1,7 +1,7 @@
 import { IUser } from "../dto/schema/Schemas";
 import { CreateUserDTO } from "../dto/request/user.dto";
-import UserRepository, {UserRespositoryInstance} from "../repository/users/user.repository";
-import SessionRepository, {SessionRepositoryInstance} from "../repository/users/jwt.repository";
+import UserRepository, {UserRespositoryInstance} from "../repository/user.repository";
+import SessionRepository, {SessionRepositoryInstance} from "../repository/jwt.repository";
 import { FormattedRequest } from "../dto/request/Request";
 import { signJWT } from "../config/jwt.config";
 import { CreateUserResponseDTO, FetchUserDTO, SearchUserResponseDTO, SessionPass } from "../dto/response/user.dto";
@@ -16,6 +16,10 @@ export interface UserServicesInstance {
 
 let instance: UserServicesInstance | null = null;
 
+/**
+ * 
+ * @returns User Service instance
+ */
 function UserServices(){
 
   if(instance){
@@ -25,6 +29,12 @@ function UserServices(){
   const userRepository:UserRespositoryInstance = UserRepository();
   const sessionRepository:SessionRepositoryInstance = SessionRepository();
 
+  /**
+   * 
+   * @param email 
+   * @param password 
+   * @returns returns the session created with relevant logic
+   */
   const createSessionHandler = async (email: string, password: string) => {
    
     const data:FetchUserDTO | null= await userRepository.getUser(email);
@@ -58,6 +68,11 @@ function UserServices(){
     return sessionPass;
   };
 
+  /**
+   * 
+   * @param body 
+   * @returns handles the signup database query
+   */
   const signUpHandler = async (body: CreateUserDTO): Promise<CreateUserResponseDTO | any> => {
 
       if(!body.firstName || !body.lastName || !body.email || !body.password || !body.role){
@@ -73,6 +88,11 @@ function UserServices(){
       }
   };
 
+  /**
+   * 
+   * @param req 
+   * @returns handles the get users database query
+   */
   const getUsersHandler = async (req: FormattedRequest):Promise<SearchUserResponseDTO['data'] | undefined> => {
     const keyword = req.query.search
       ? {

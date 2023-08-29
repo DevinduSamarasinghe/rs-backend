@@ -2,6 +2,9 @@ import express, { Router } from "express";
 import { getAllusers, getCurrentUser, loginUser, signUp, deleteSessionHandler } from "../controllers/sessions";
 import { authenticate } from "../middleware/authentication";
 
+/**
+ * @returns User Router
+ */
 function userRoutes(){
   const router: Router = express.Router();
   router.get("/", authenticate, getAllusers);

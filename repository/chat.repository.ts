@@ -12,12 +12,22 @@ export interface ChatRepositoryInstance {
 
 let instance: ChatRepositoryInstance | null = null;
 
+/**
+ * 
+ * @returns Chat Repository instance
+ */
 function ChatRepository () {
 
   if (instance) {
     return instance
   }
 
+  /**
+   * 
+   * @param loggedUser 
+   * @param userId 
+   * @returns Full Chat Information including, users, last message and chat name
+   */
   const accessChatRepository = async (loggedUser: FormattedRequest['user'], userId: string) => {
     try {
       let isChat: any = await Chat.find({
@@ -62,6 +72,11 @@ function ChatRepository () {
   }
 
 
+  /**
+   * 
+   * @param req 
+   * @returns all chats relevant to the user 
+   */
   const fetchChatRepository = async (req: FormattedRequest):Promise<FetchChatResponseDTO> => {
     try {
       const chats: FetchChatResponseDTO = await Chat.find({

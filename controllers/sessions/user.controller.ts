@@ -2,16 +2,25 @@ import { Request, Response } from "express";
 import { FormattedRequest } from "../../dto/request/Request";
 import { SessionPass } from "../../dto/response/user.dto";
 import UserServices, { UserServicesInstance } from "../../services/user.services";
-import SessionRepository, {SessionRepositoryInstance} from "../../repository/users/jwt.repository";
+import SessionRepository, {SessionRepositoryInstance} from "../../repository/jwt.repository";
 import dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 
-
+/**
+ * 
+ * controller for handling user requests and responses
+ */
 const userController = ()=>{
 
   const userServices:UserServicesInstance = UserServices();
   const sessionRepository:SessionRepositoryInstance = SessionRepository();
 
+  /**
+   * 
+   * @param req 
+   * @param res 
+   * @returns Creates user in the database and returns the user data
+   */
   const signUp = async (req: Request, res: Response) => {
     try {
       const data = await userServices.signUpHandler(req.body);
@@ -24,6 +33,12 @@ const userController = ()=>{
   };
 
 
+  /**
+   * 
+   * @param req 
+   * @param res 
+   * @returns logged user, accessToken and refreshToken via httpOnly cookies.
+   */
   const loginUser = async (req: Request, res: Response) => {
     const { email, password } = req.body;
     try {
@@ -40,6 +55,12 @@ const userController = ()=>{
   };
 
 
+  /**
+   * 
+   * @param req 
+   * @param res 
+   * @returns all the users according to the search query
+   */
   const getAllusers = async (req: FormattedRequest, res: Response) => {
     try {
       const users = await userServices.getUsersHandler(req);
@@ -52,6 +73,7 @@ const userController = ()=>{
   };
   
 
+  //deletes the ssession from the cookie storage and clears the cookies
   const deleteSessionHandler = (req: FormattedRequest, res: Response) => {
     try{
       res.cookie("accessToken", "", { maxAge: 0, httpOnly: true, sameSite:"none",secure: true });
@@ -67,7 +89,12 @@ const userController = ()=>{
 
   };
 
-
+  /**
+   * 
+   * @param req 
+   * @param res 
+   * @returns fetches the current logged in user
+   */
   const getCurrentUser = async (req: FormattedRequest, res: Response) => {
     try {
       //@ts-ignore

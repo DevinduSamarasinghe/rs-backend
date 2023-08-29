@@ -2,6 +2,10 @@ import express from "express";
 import { authenticate } from "../middleware/authentication";
 import { accessChat, fetchChat } from "../controllers/chats";
 
+/**
+ * 
+ * @returns Chat Router
+ */
 function chatRoutes(){
   const router = express.Router();
   router.post("/", authenticate, accessChat);

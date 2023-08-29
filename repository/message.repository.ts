@@ -10,12 +10,22 @@ export interface MessageRepositoryInstance {
 
 let instance:MessageRepositoryInstance | null = null; 
 
+/**
+ * 
+ * @returns Message Repository instance
+ */
 function MessageRepository() {
 
   if(instance){
     return instance;
   }
 
+  /**
+   * 
+   * @param newMessage 
+   * @param chatId 
+   * @returns Repository function to create messags in the database
+   */
   const sendMessageRepository = async (newMessage: any, chatId: string):Promise<any> => {
     try {
       let message: any = await Message.create(newMessage);
@@ -41,6 +51,11 @@ function MessageRepository() {
     }
   };
 
+  /**
+   * 
+   * @param chatId 
+   * @returns fetches all the messages relevant to the chatID
+   */
   const fetchMessageRepository = async (chatId: string):Promise<any> => {
     try {
       const messages = await Message.find({ chat: chatId }).populate(
