@@ -56,7 +56,7 @@ function UserServices(){
       sessionId: session.sessionId,
     };
   
-    const accessToken = signJWT(session, "30m");
+    const accessToken = signJWT(session, "2h");
     const refreshToken = signJWT(refreshPayload, "7d");
   
     const sessionPass: SessionPass = {
