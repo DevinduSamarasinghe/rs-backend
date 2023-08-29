@@ -13,12 +13,21 @@ export interface UserRespositoryInstance {
 
 let instance:UserRespositoryInstance | null = null;
 
+/**
+ * 
+ * @returns User respository instance
+ */
 function UserRepository(){
 
     if(instance){
         return instance;
     }
 
+    /**
+     * 
+     * @param email 
+     * @returns fetches user from email
+     */
     const getUser = async(email: string):Promise<FetchUserDTO | null>=>{
         try{
             const user:FetchUserDTO | null = await User.findOne({email});
@@ -32,6 +41,11 @@ function UserRepository(){
         }
     }
 
+    /**
+     * 
+     * @param body 
+     * @returns created user object
+     */
     const createUser = async(body:CreateUserDTO):Promise<CreateUserDTO | any>=>{
         try{
             const {firstName, lastName, email, password, role} = body;

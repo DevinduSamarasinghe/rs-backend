@@ -7,6 +7,11 @@ export interface MessageServiceInstance {
 }
 
 let instance: MessageServiceInstance | null = null;
+
+/**
+ * 
+ * @returns Message Service instance
+ */
 function MessageServices(){
 
     if(instance){
@@ -15,6 +20,11 @@ function MessageServices(){
 
     const messageRepository:MessageRepositoryInstance = MessageRepository();
 
+    /**
+     * 
+     * @param req 
+     * @returns returns the message sent with relevant logic
+     */
     const sendMessageHandler = async(req: FormattedRequest)=>{
         try{
             const {content, chatId} = req.body;
@@ -35,6 +45,11 @@ function MessageServices(){
         }
     }
 
+    /**
+     * 
+     * @param req ChatID from the logged user
+     * @returns retuns all messages via the repository
+     */
     const allMessagesHandler = async(req:FormattedRequest)=>{
         const {chatId} = req.params;
         const messages = await messageRepository.fetchMessageRepository(chatId);

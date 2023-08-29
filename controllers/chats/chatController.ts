@@ -2,6 +2,9 @@ import { Response } from 'express'
 import { FormattedRequest } from '../../dto/request/Request'
 import ChatServices, { ChatServiceInstance } from '../../services/chat.services'
 
+/**
+ *  handles the end point requests and responses from the client for Chats
+ */
 function chatController () {
   const chatService: ChatServiceInstance = ChatServices()
 
