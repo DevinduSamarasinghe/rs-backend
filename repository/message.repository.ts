@@ -43,7 +43,6 @@ function MessageRepository() {
         path: "chat.latestMessage.sender",
         select: "firstName lastName email",
       });
-
       await Chat.findByIdAndUpdate(chatId, { latestMessage: message });
       return message;
     } catch (error: any) {
